@@ -1,3 +1,3 @@
 module.exports = function(app) {
-  require('./manUnited-controller/manUnited-controller')(app);
+  require('./barca-controller/barca-controller')(app);
 };

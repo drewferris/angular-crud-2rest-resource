@@ -18,10 +18,10 @@ module.exports = function(app) {
   };
 
   ManUnitedController.prototype.addmanUnited = function() {
-    this.$http.post('http://localhost:6969/manUnited', this.newmanUnited)
+    this.$http.post('http://localhost:6969/manUnited', this.manUnited)
     .then((res) => {
       this.manUniteds.push(res.data);
-      this.newmanUnited = null;
+      this.manUnited = null;
     }, (err) => {
       console.log(err);
     });
@@ -40,7 +40,7 @@ module.exports = function(app) {
   ManUnitedController.prototype.updatemanUnited = function(manUnited, updatemanUnited) {
     manUnited.name = updatemanUnited.name;
 
-    this.$http.put('http://localocalhost:6969/manUnited/', manUnited)
+    this.$http.put('http://localhost:6969/manUnited/', manUnited)
     .then(() => {
       this.manUniteds = this.manUniteds.map(n => {
         return n._id === manUnited._id ? manUnited : n;

@@ -18,10 +18,10 @@ module.exports = function(app) {
   };
 
   BarcaController.prototype.addBarca = function() {
-    this.$http.post('http://localhost:6969/barca', this.newbarca)
+    this.$http.post('http://localhost:6969/barca', this.barca)
     .then((res) => {
       this.barcas.push(res.data);
-      this.newbarca = null;
+      this.barca = null;
     }, (err) => {
       console.log(err);
     });
