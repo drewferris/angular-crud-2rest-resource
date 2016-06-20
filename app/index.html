@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Soccer App</title>
+</head>
+<body ng-app="SoccerApp">
+  <main>
+    <div ng-controller="ManUnitedController as manuctrl" ng-init="manuctrl.getmanUniteds()">
+      <ul>
+        <li ng-repeat="manUnited in manuctrl.manUniteds">
+          {{manUnited.body}}
+          <form ng-submit="manuctrl.updatemanUnited(manUnited, updatedManUnited)">
+            <input type="text" ng-model="updatedManUnited.body"/>
+            <button type="submit">update</button>
+            <button ng-click="manuctrl.dedeletemanUnited(manUnited)">delete</button>
+          </form>
+        </li>
+      </ul>
+      <form ng-submit="manuctrl.addmanUnited()">
+        <input type="text" placeholder="new manUnited" ng-model="manuctrl.manUnited.body"/>
+        <button type="submit">New Man United Player</button>
+      </form>
+    </div>
+    <div ng-controller="BarcaController as barcactrl" ng-init="barcactrl.getBarcas()">
+      <ul>
+        <li ng-repeat="barca in barcactrl.barcas">
+          {{barca.body}}
+          <form ng-submit="barcactrl.updateBarca(barca, updatedBarca)">
+            <input type="text" ng-model="updatedBarca.body"/>
+            <button type="submit">update</button>
+            <button ng-click="barcactrl.dedeleteBarca(barca)">delete</button>
+          </form>
+        </li>
+      </ul>
+      <form ng-submit="barcactrl.addBarca()">
+        <input type="text" placeholder="new barca" ng-model="barcactrl.barca.body"/>
+        <button type="submit">New Barca Player</button>
+      </form>
+    </div>
+  </main>
+  <script src="./bundle.js"></script>
+</body>
+</html>

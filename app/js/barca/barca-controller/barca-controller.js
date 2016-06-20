@@ -1,49 +1,49 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('ManUnitedController', ['$http', ManUnitedController]);
+  app.controller('BarcaController', ['$http', BarcaController]);
 
-  function ManUnitedController($http) {
+  function BarcaController($http) {
     this.$http = $http;
-    this.manUniteds = [];
+    this.barcas = [];
   }
 
-  ManUnitedController.prototype.getmanUniteds = function() {
-    this.$http.get('http://localhost:6969/manUnited')
+  BarcaController.prototype.getBarcas = function() {
+    this.$http.get('http://localhost:6969/barca')
     .then((res) => {
-      this.manUniteds = res.data;
+      this.barcas = res.data;
     }, (err) => {
       console.log(err);
     });
   };
 
-  ManUnitedController.prototype.addmanUnited = function() {
-    this.$http.post('http://localhost:6969/manUnited', this.newmanUnited)
+  BarcaController.prototype.addBarca = function() {
+    this.$http.post('http://localhost:6969/barca', this.newbarca)
     .then((res) => {
-      this.manUniteds.push(res.data);
-      this.newmanUnited = null;
+      this.barcas.push(res.data);
+      this.newbarca = null;
     }, (err) => {
       console.log(err);
     });
   };
 
-  ManUnitedController.prototype.deletemanUnited = function(manUnited) {
-    this.$http.delete('http://localhost:6969/manUnited/' + manUnited._id)
+  BarcaController.prototype.deleteBarca = function(barca) {
+    this.$http.delete('http://localhost:6969/barca/' + barca._id)
     .then(() => {
-      let index = this.manUniteds.indexOf(manUnited);
-      this.manUniteds.splice(index, 1);
+      let index = this.barcas.indexOf(barca);
+      this.barcas.splice(index, 1);
     }, (err) => {
       console.log(err);
     });
   };
 
-  ManUnitedController.prototype.updatemanUnited = function(manUnited, updatemanUnited) {
-    manUnited.name = updatemanUnited.name;
+  BarcaController.prototype.updateBarca = function(barca, updatebarca) {
+    barca.name = updatebarca.name;
 
-    this.$http.put('http://localocalhost:6969/manUnited/', manUnited)
+    this.$http.put('http://localocalhost:6969/barca/', barca)
     .then(() => {
-      this.manUniteds = this.manUniteds.map(n => {
-        return n._id === manUnited._id ? manUnited : n;
+      this.barcas = this.barcas.map(n => {
+        return n._id === barca._id ? barca : n;
       });
     }, (err) => {
       console.log(err);
