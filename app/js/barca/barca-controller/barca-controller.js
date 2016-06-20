@@ -40,7 +40,7 @@ module.exports = function(app) {
   BarcaController.prototype.updateBarca = function(barca, updatebarca) {
     barca.name = updatebarca.name;
 
-    this.$http.put('http://localocalhost:6969/barca/', barca)
+    this.$http.put('http://localhost:6969/barca/', barca)
     .then(() => {
       this.barcas = this.barcas.map(n => {
         return n._id === barca._id ? barca : n;
