@@ -44,21 +44,29 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(1);
+	module.exports = __webpack_require__(10);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	const angular = __webpack_require__(1);
+	const angular = __webpack_require__(2);
 
-	__webpack_require__(3);
-	__webpack_require__(8);
+	__webpack_require__(4);
+	__webpack_require__(9);
 
 	describe('controller tests', () => {
-	  let manuctrl;
+	  let barcactrl;
 	  let $httpBackend;
 
 	  beforeEach(() => {
 	    angular.mock.module('SoccerApp');
 	    angular.mock.inject(function($controller, _$httpBackend_) {
-	      manuctrl = new $controller('ManUnitedController');
+	      barcactrl = new $controller('BarcaController');
 	      $httpBackend = _$httpBackend_;
 	    });
 	  });
@@ -68,72 +76,66 @@
 	    $httpBackend.verifyNoOutstandingExpectation();
 	  });
 
-	  // it('should have a manUniteds array', () => {
-	  //   console.log(manuctrl.manUniteds);
-	  //   expect(Array.isArray(manuctrl.manUniteds)).toBe(true);
-	  // });
+	  it('should get a list of barcas', () => {
 
-	  it('should get a list of manUniteds', () => {
-
-	    $httpBackend.expectGET('http://localhost:6969/manUnited')
+	    $httpBackend.expectGET('http://localhost:6969/barca')
 	      .respond(200, {data:[]});
-
-
-	    manuctrl.getmanUniteds();
+	    
+	    barcactrl.getBarcas();
 	    $httpBackend.flush();
-	    // console.log(manuctrl.manUniteds);
-	    expect(Array.isArray(manuctrl.manUniteds.data)).toBe(true);
+	    // console.log(barcactrl.barcas);
+	    expect(Array.isArray(barcactrl.barcas.data)).toBe(true);
 	  });
 
 	  it('should create a man united player', () => {
-	    $httpBackend.expectPOST('http://localhost:6969/manUnited')
+	    $httpBackend.expectPOST('http://localhost:6969/barca')
 	      .respond(200, {data: {name: 'test player'}});
 
-	    manuctrl.manUnited = {body: 'test player'};
-	    manuctrl.addmanUnited();
+	    barcactrl.barca = {body: 'test player'};
+	    barcactrl.addBarca();
 	    $httpBackend.flush();
 
-	    expect(manuctrl.manUnited).toBe(null);
+	    expect(barcactrl.barca).toBe(null);
 	  });
 
-	  it('should delete a man united player', () => {
-	    let testManUPlayer = {name: 'test player', _id:1};
-	    $httpBackend.expectDELETE('http://localhost:6969/manUnited/1')
+	  it('should delete a barca player', () => {
+	    let testBarcaPlayer = {name: 'test player', _id:1};
+	    $httpBackend.expectDELETE('http://localhost:6969/barca/1')
 	      .respond(200, {message: 'deleted'});
 
-	    manuctrl.manUniteds.push(testManUPlayer);
-	    manuctrl.deletemanUnited(testManUPlayer);
+	    barcactrl.barcas.push(testBarcaPlayer);
+	    barcactrl.deleteBarca(testBarcaPlayer);
 
 	    $httpBackend.flush();
 
-	    expect(manuctrl.manUniteds.length).toBe(0);
+	    expect(barcactrl.barcas.length).toBe(0);
 	  });
 
-	  it('should update a man united player', () => {
-	    let testManUPlayer = {name: 'test player'};
-	    manuctrl.manUniteds.push(testManUPlayer);
-	    let updatedmanUnited = {name: 'updated man united'};
-	    $httpBackend.expectPUT('http://localhost:6969/manUnited/')
-	      .respond(200, {data: {name: 'updated man united'}});
+	  it('should update a barca player', () => {
+	    let testBarcaPlayer = {name: 'test player'};
+	    barcactrl.barcas.push(testBarcaPlayer);
+	    let updatedBarca = {name: 'updated barca'};
+	    $httpBackend.expectPUT('http://localhost:6969/barca/')
+	      .respond(200, {data: {name: 'updated barca'}});
 
-	    manuctrl.updatemanUnited(testManUPlayer, updatedmanUnited);
+	    barcactrl.updateBarca(testBarcaPlayer, updatedBarca);
 	    $httpBackend.flush();
 
-	    expect(manuctrl.manUniteds[0].name).toBe('updated man united');
+	    expect(barcactrl.barcas[0].name).toBe('updated barca');
 	  });
 	});
 
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
+	__webpack_require__(3);
 	module.exports = angular;
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -31611,29 +31613,29 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	const angular = __webpack_require__(1);
+	const angular = __webpack_require__(2);
 	const soccerTeamApp = angular.module('SoccerApp', []);
 
-	__webpack_require__(4)(soccerTeamApp);
-	__webpack_require__(6)(soccerTeamApp);
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(5)(app);
-	};
+	__webpack_require__(5)(soccerTeamApp);
+	__webpack_require__(7)(soccerTeamApp);
 
 
 /***/ },
 /* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31691,16 +31693,16 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(7)(app);
+	  __webpack_require__(8)(app);
 	};
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31758,7 +31760,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -34880,6 +34882,85 @@
 
 
 	})(window, window.angular);
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const angular = __webpack_require__(2);
+
+	__webpack_require__(4);
+	__webpack_require__(9);
+
+	describe('controller tests', () => {
+	  let manuctrl;
+	  let $httpBackend;
+
+	  beforeEach(() => {
+	    angular.mock.module('SoccerApp');
+	    angular.mock.inject(function($controller, _$httpBackend_) {
+	      manuctrl = new $controller('ManUnitedController');
+	      $httpBackend = _$httpBackend_;
+	    });
+	  });
+
+	  afterEach(() => {
+	    $httpBackend.verifyNoOutstandingRequest();
+	    $httpBackend.verifyNoOutstandingExpectation();
+	  });
+
+	  it('should get a list of manUniteds', () => {
+
+	    $httpBackend.expectGET('http://localhost:6969/manUnited')
+	      .respond(200, {data:[]});
+
+
+	    manuctrl.getmanUniteds();
+	    $httpBackend.flush();
+	    // console.log(manuctrl.manUniteds);
+	    expect(Array.isArray(manuctrl.manUniteds.data)).toBe(true);
+	  });
+
+	  it('should create a man united player', () => {
+	    $httpBackend.expectPOST('http://localhost:6969/manUnited')
+	      .respond(200, {data: {name: 'test player'}});
+
+	    manuctrl.manUnited = {body: 'test player'};
+	    manuctrl.addmanUnited();
+	    $httpBackend.flush();
+
+	    expect(manuctrl.manUnited).toBe(null);
+	  });
+
+	  it('should delete a man united player', () => {
+	    let testManUPlayer = {name: 'test player', _id:1};
+	    $httpBackend.expectDELETE('http://localhost:6969/manUnited/1')
+	      .respond(200, {message: 'deleted'});
+
+	    manuctrl.manUniteds.push(testManUPlayer);
+	    manuctrl.deletemanUnited(testManUPlayer);
+
+	    $httpBackend.flush();
+
+	    expect(manuctrl.manUniteds.length).toBe(0);
+	  });
+
+	  it('should update a man united player', () => {
+	    let testManUPlayer = {name: 'test player'};
+	    manuctrl.manUniteds.push(testManUPlayer);
+	    let updatedmanUnited = {name: 'updated man united'};
+	    $httpBackend.expectPUT('http://localhost:6969/manUnited/')
+	      .respond(200, {data: {name: 'updated man united'}});
+
+	    manuctrl.updatemanUnited(testManUPlayer, updatedmanUnited);
+	    $httpBackend.flush();
+
+	    expect(manuctrl.manUniteds[0].name).toBe('updated man united');
+	  });
+	});
 
 
 /***/ }

@@ -22,11 +22,6 @@ describe('controller tests', () => {
     $httpBackend.verifyNoOutstandingExpectation();
   });
 
-  // it('should have a manUniteds array', () => {
-  //   console.log(manuctrl.manUniteds);
-  //   expect(Array.isArray(manuctrl.manUniteds)).toBe(true);
-  // });
-
   it('should get a list of manUniteds', () => {
 
     $httpBackend.expectGET('http://localhost:6969/manUnited')
