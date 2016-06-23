@@ -5,5 +5,5 @@
 /package.json
 /npm-debug.log
 /procfile
-/test/test_bundle.js
+**/test/test_bundle.js
 **/build/*
