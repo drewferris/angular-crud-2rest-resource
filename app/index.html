@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Soccer App</title>
+</head>
+<body ng-app="SoccerApp">
+  <main>
+    <div ng-controller="ManUnitedController as manuctrl" ng-init="manuctrl.getmanUniteds()">
+      <!-- <ul>
+        <li ng-repeat="manUnited in manuctrl.manUniteds">
+          {{manUnited.name}}
+          <form ng-submit="manuctrl.updatemanUnited(manUnited, updatedManUnited)">
+            <input type="text" ng-model="updatedManUnited.name"/>
+            <button type="submit">update</button>
+            <button ng-click="manuctrl.deletemanUnited(manUnited)">delete</button>
+          </form>
+        </li>
+      </ul>
+      <form ng-submit="manuctrl.addmanUnited()">
+        <input type="text" placeholder="new manUnited" ng-model="manuctrl.manUnited.name"/>
+        <button type="submit">New Man United Player</button>
+      </form> -->
+      <ul>
+        <li ng-repeat="manUnited in manuctrl.manUniteds">
+          {{manUnited.name}}
+          <button ng-click="manUnited.updating = !manUnited.updating">Edit</button>
+          <form ng-hide="!manUnited.updating" ng-submit="manuctrl.updatemanUnited(manUnited, updatedmanUnited)">
+            <input type="text" ng-model="updatedmanUnited.name"/>
+            <button type="submit">Update</button>
+            <button ng-click="manuctrl.deletemanUnited(manUnited)">Delete</button>
+          </form>
+        </li>
+      </ul>
+      <form ng-submit="manuctrl.addmanUnited()">
+        <input ng-model="manuctrl.manUnited.name" type="text"/>
+        <button type="submit">New Man United Player</button>
+      </form>
+    </div>
+    <div ng-controller="BarcaController as barcactrl" ng-init="barcactrl.getBarcas()">
+      <!-- <ul>
+        <li ng-repeat="barca in barcactrl.barcas">
+          {{barca.name}}
+          <form ng-submit="barcactrl.updateBarca(barca, updatedBarca)">
+            <input type="text" ng-model="updatedBarca.name"/>
+            <button type="submit">update</button>
+            <button ng-click="barcactrl.deleteBarca(barca)">delete</button>
+          </form>
+        </li>
+      </ul>
+      <form ng-submit="barcactrl.addBarca()">
+        <input type="text" placeholder="new barca" ng-model="barcactrl.barca.name"/>
+        <button type="submit">New Barca Player</button>
+      </form> -->
+      <ul>
+        <li ng-repeat="barca in barcactrl.barcas">
+          {{barca.name}}
+          <button ng-click="barca.updating = !barca.updating">Edit</button>
+          <form ng-hide="!barca.updating" ng-submit="barcactrl.updateBarca(barca, updatedbarca)">
+            <input type="text" ng-model="updatedbarca.name"/>
+            <button type="submit">Update</button>
+            <button ng-click="barcactrl.deleteBarca(barca)">Delete</button>
+          </form>
+        </li>
+      </ul>
+      <form ng-submit="barcactrl.addBarca()">
+        <input ng-model="barcactrl.barca.name" type="text"/>
+        <button type="submit">New Barcalona Player</button>
+      </form>
+    </div>
+  </main>
+  <script src="./bundle.js"></script>
+</body>
+</html>
