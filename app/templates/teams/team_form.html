@@ -1,0 +1,5 @@
+<form ng-submit="submit(player)">
+  <input type="text" ng-model="player.body">
+  <button type="submit">{{type}} player</button>
+  <button ng-show="type === 'edit'" ng-click="deleteNote()">Delete</button>
+</form>
