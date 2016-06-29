@@ -9,7 +9,7 @@ module.exports = function(app) {
       require: '^^ngController',
       link: function($scope, elem, attr, controller) {
         $scope.deletemanUnited = controller.deletemanUnited;
-        $scope.deleteBarca = controller.deleteBarca;
+        $scope.updatemanUnited = controller.updatemanUnited;
         $scope.submit = $scope.type === 'new' ? controller.addmanUnited
         : controller.updatemanUnited;
       }

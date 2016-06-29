@@ -6,6 +6,9 @@
 </head>
 <body ng-app="SoccerApp">
   <main ng-controller="TeamsController as teams" ng-init="teams.getTeams()">
+    <!-- <man-united-list manuniteds="teams.manUniteds"></man-united-list> -->
+
+
     <ul>
       <h1>Manchester United</h1>
       <li ng-repeat="player in teams.manUniteds">
@@ -15,6 +18,7 @@
         Goals: {{player.goals}}
         <team-form player="player" type="edit"></team-form>
       </li>
+      <team-form player="{}" type="new"></team-form>
       <h1>Barcalona</h1>
       <li ng-repeat="player in teams.barcas">
         Player Name: {{player.name}}<br>
@@ -23,11 +27,10 @@
         Goals: {{player.goals}}
         <team-form player="player" type="edit"></team-form>
       </li>
+        <team-form player="{}" type="new"></team-form>
     </ul>
 
-    <team-form player="{}" type="new"></team-form>
 
-    <team-form player="{}" type="new"></team-form>
 
     <!-- <div ng-controller="ManUnitedController as manuctrl" ng-init="manuctrl.getmanUniteds()">
 
