@@ -8,6 +8,7 @@ module.exports = function(app) {
       templateUrl: './templates/teams/barca_form.html',
       require: '^^ngController',
       link: function($scope, elem, attr, controller) {
+        console.log(controller);
         $scope.deleteBarca = controller.deleteBarca;
         $scope.updateBarca = controller.updateBarca;
         $scope.submit = $scope.type === 'new' ? controller.addBarca
