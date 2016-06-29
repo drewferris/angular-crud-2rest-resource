@@ -1,3 +1,4 @@
 module.exports = function(app) {
-  require('./team_form')(app);
+  require('./man_united_form')(app);
+  require('./barca_form')(app);
 };

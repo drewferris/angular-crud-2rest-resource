@@ -1,11 +1,11 @@
 module.exports = function(app) {
-  app.directive('teamForm', function() {
+  app.directive('manUnitedForm', function() {
     return {
       scope: {
         type: '@',
         player: '='
       },
-      templateUrl: './templates/teams/team_form.html',
+      templateUrl: './templates/teams/man_united_form.html',
       require: '^^ngController',
       link: function($scope, elem, attr, controller) {
         $scope.deletemanUnited = controller.deletemanUnited;
