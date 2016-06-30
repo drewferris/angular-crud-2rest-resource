@@ -1,13 +1,13 @@
 'use strict';
 module.exports = function(app) {
-  app.directive('barcaNewPlayerForm', function() {
+  app.directive('playerForm', function() {
     return {
       scope: {
         type: '@',
         player: '=',
         team: '@'
       },
-      templateUrl: './templates/teams/barca_new_player_form.html',
+      templateUrl: './templates/teams/player_form.html',
       require: '^^ngController',
       link: function($scope, elem, attr, controller) {
         console.log(controller);

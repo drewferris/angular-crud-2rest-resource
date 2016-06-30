@@ -7,9 +7,9 @@
 <body ng-app="SoccerApp">
   <main ng-controller="TeamsController as teams" ng-init="teams.getTeams()">
     <man-united-list manuniteds="teams.manUniteds"></man-united-list>
-    <barca-new-player-form player="{}" type="new" team="manUnited"></barca-new-player-form>
+    <player-form player="{}" type="new" team="manUnited"></player-form>
     <barca-list barcas="teams.barcas"></barca-list>
-    <barca-new-player-form player="{}" type="new" team="barca"></barca-new-player-form>
+    <player-form player="{}" type="new" team="barca"></player-form>
   </main>
   <script src="./bundle.js"></script>
 </body>
