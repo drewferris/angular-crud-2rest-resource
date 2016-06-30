@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(10);
+	module.exports = __webpack_require__(13);
 
 
 /***/ },
@@ -57,7 +57,7 @@
 	const angular = __webpack_require__(2);
 
 	__webpack_require__(4);
-	__webpack_require__(9);
+	__webpack_require__(12);
 
 	describe('controller tests', () => {
 	  let barcactrl;
@@ -66,7 +66,7 @@
 	  beforeEach(() => {
 	    angular.mock.module('SoccerApp');
 	    angular.mock.inject(function($controller, _$httpBackend_) {
-	      barcactrl = new $controller('BarcaController');
+	      barcactrl = new $controller('TeamsController');
 	      $httpBackend = _$httpBackend_;
 	    });
 	  });
@@ -80,7 +80,7 @@
 
 	    $httpBackend.expectGET('http://localhost:6969/barca')
 	      .respond(200, {data:[]});
-	    
+
 	    barcactrl.getBarcas();
 	    $httpBackend.flush();
 	    // console.log(barcactrl.barcas);
@@ -118,7 +118,7 @@
 	    $httpBackend.expectPUT('http://localhost:6969/barca/')
 	      .respond(200, {data: {name: 'updated barca'}});
 
-	    barcactrl.updateBarca(testBarcaPlayer, updatedBarca);
+	    barcactrl.updateBarca(updatedBarca);
 	    $httpBackend.flush();
 
 	    expect(barcactrl.barcas[0].name).toBe('updated barca');
@@ -31616,13 +31616,12 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
 
 	const angular = __webpack_require__(2);
-	const soccerTeamApp = angular.module('SoccerApp', []);
+	const app = angular.module('SoccerApp', []);
 
-	__webpack_require__(5)(soccerTeamApp);
-	__webpack_require__(7)(soccerTeamApp);
+	__webpack_require__(5)(app);
 
 
 /***/ },
@@ -31631,136 +31630,210 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(6)(app);
-	};
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(app) {
-	  app.controller('ManUnitedController', ['$http', ManUnitedController]);
-
-	  function ManUnitedController($http) {
-	    this.$http = $http;
-	    this.manUniteds = [];
-	  }
-
-	  ManUnitedController.prototype.getmanUniteds = function() {
-	    this.$http.get('http://localhost:6969/manUnited')
-	    .then((res) => {
-	      this.manUniteds = res.data;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  ManUnitedController.prototype.addmanUnited = function() {
-	    this.$http.post('http://localhost:6969/manUnited', this.manUnited)
-	    .then((res) => {
-	      this.manUniteds.push(res.data);
-	      this.manUnited = null;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  ManUnitedController.prototype.deletemanUnited = function(manUnited) {
-	    this.$http.delete('http://localhost:6969/manUnited/' + manUnited._id)
-	    .then(() => {
-	      let index = this.manUniteds.indexOf(manUnited);
-	      this.manUniteds.splice(index, 1);
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  ManUnitedController.prototype.updatemanUnited = function(manUnited, updatemanUnited) {
-	    manUnited.name = updatemanUnited.name;
-
-	    this.$http.put('http://localhost:6969/manUnited/', manUnited)
-	    .then(() => {
-	      this.manUniteds = this.manUniteds.map(n => {
-	        return n._id === manUnited._id ? manUnited : n;
-	      });
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-	};
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
 	  __webpack_require__(8)(app);
 	};
 
 
 /***/ },
-/* 8 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(7)(app);
+	};
+
+
+/***/ },
+/* 7 */
 /***/ function(module, exports) {
+
+	
 
 	'use strict';
 
 	module.exports = function(app) {
-	  app.controller('BarcaController', ['$http', BarcaController]);
-
-	  function BarcaController($http) {
-	    this.$http = $http;
+	  app.controller('TeamsController', function($http) {
+	    this.manUniteds = [];
 	    this.barcas = [];
-	  }
 
-	  BarcaController.prototype.getBarcas = function() {
-	    this.$http.get('http://localhost:6969/barca')
-	    .then((res) => {
-	      this.barcas = res.data;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  BarcaController.prototype.addBarca = function() {
-	    this.$http.post('http://localhost:6969/barca', this.barca)
-	    .then((res) => {
-	      this.barcas.push(res.data);
-	      this.barca = null;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  BarcaController.prototype.deleteBarca = function(barca) {
-	    this.$http.delete('http://localhost:6969/barca/' + barca._id)
-	    .then(() => {
-	      let index = this.barcas.indexOf(barca);
-	      this.barcas.splice(index, 1);
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  BarcaController.prototype.updateBarca = function(barca, updatebarca) {
-	    barca.name = updatebarca.name;
-
-	    this.$http.put('http://localhost:6969/barca/', barca)
-	    .then(() => {
-	      this.barcas = this.barcas.map(n => {
-	        return n._id === barca._id ? barca : n;
+	    this.getmanUniteds = function() {
+	      $http.get('http://localhost:6969/manUnited')
+	      .then((res) => {
+	        this.manUniteds = res.data;
+	      }, (err) => {
+	        console.log(err);
 	      });
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
+	    };
+
+	    this.addmanUnited = function(manUnited) {
+	      $http.post('http://localhost:6969/manUnited', manUnited)
+	      .then((res) => {
+	        this.manUniteds.push(res.data);
+	        this.manUnited = null;
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    }.bind(this);
+
+	    this.deletemanUnited = function(manUnited) {
+	      console.log(manUnited);
+	      $http.delete('http://localhost:6969/manUnited/' + manUnited._id)
+
+	      .then(() => {
+	        let index = this.manUniteds.indexOf(manUnited);
+	        this.manUniteds.splice(index, 1);
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    }.bind(this);
+
+	    this.updatemanUnited = function(manUnited) {
+	      console.log('got here', manUnited);
+	      $http.put('http://localhost:6969/manUnited/', manUnited)
+	      .then(() => {
+	        this.manUniteds = this.manUniteds.map(n => {
+	          return n._id === manUnited._id ? manUnited : n;
+	        });
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    }.bind(this);
+
+	    this.getTeams = function() {
+	      this.getBarcas();
+	      this.getmanUniteds();
+	    };
+
+	    this.getBarcas = function() {
+	      $http.get('http://localhost:6969/barca')
+	      .then((res) => {
+	        this.barcas = res.data;
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    };
+
+	    this.addBarca = function(barca) {
+	      $http.post('http://localhost:6969/barca', barca)
+	      .then((res) => {
+	        this.barcas.push(res.data);
+	        this.barca = null;
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    }.bind(this);
+
+	    this.deleteBarca = function(barca) {
+	      $http.delete('http://localhost:6969/barca/' + barca._id)
+	      .then(() => {
+	        let index = this.barcas.indexOf(barca);
+	        this.barcas.splice(index, 1);
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    }.bind(this);
+
+	    this.updateBarca = function(barca) {
+
+	      $http.put('http://localhost:6969/barca/', barca)
+	      .then(() => {
+	        this.barcas = this.barcas.map(n => {
+	          return n._id === barca._id ? barca : n;
+	        });
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    }.bind(this);
+	  });
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(9)(app);
+	  __webpack_require__(10)(app);
+	  __webpack_require__(11)(app);
 	};
 
 
 /***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('barcaList', function() {
+	    return {
+	      scope: {
+	        barcas: '='
+	      },
+	      templateUrl: './templates/teams/barca_list.html'
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('manUnitedList', function() {
+	    return {
+	      scope: {
+	        manuniteds: '='
+	      },
+	      templateUrl: './templates/teams/man_united_list.html'
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function(app) {
+	  app.directive('playerForm', function() {
+	    return {
+	      scope: {
+	        type: '@',
+	        player: '=',
+	        team: '@'
+	      },
+	      templateUrl: './templates/teams/player_form.html',
+	      require: '^^ngController',
+	      link: function($scope, elem, attr, controller) {
+	        console.log(controller);
+
+	        let configMethods = {
+	          barca: function($scope) {
+	            $scope.delete = controller.deleteBarca;
+	            $scope.update = controller.updateBarca;
+	            $scope.submit = $scope.type === 'new' ? controller.addBarca
+	            : controller.updateBarca;
+	            $scope.formMessage = $scope.type === 'new' ? 'Add new Barca player' : 'Update player';
+	          },
+	          manUnited: function($scope) {
+	            $scope.delete = controller.deletemanUnited;
+	            $scope.update = controller.updatemanUnited;
+	            $scope.submit = $scope.type === 'new' ? controller.addmanUnited
+	            : controller.updatemanUnited;
+	            $scope.formMessage = $scope.type === 'new' ? 'Add new Man United player' : 'Update player';
+	          }
+	        };
+	        configMethods[$scope.team]($scope);
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -34885,7 +34958,7 @@
 
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34893,7 +34966,7 @@
 	const angular = __webpack_require__(2);
 
 	__webpack_require__(4);
-	__webpack_require__(9);
+	__webpack_require__(12);
 
 	describe('controller tests', () => {
 	  let manuctrl;
@@ -34902,7 +34975,7 @@
 	  beforeEach(() => {
 	    angular.mock.module('SoccerApp');
 	    angular.mock.inject(function($controller, _$httpBackend_) {
-	      manuctrl = new $controller('ManUnitedController');
+	      manuctrl = new $controller('TeamsController');
 	      $httpBackend = _$httpBackend_;
 	    });
 	  });
@@ -34955,9 +35028,9 @@
 	    $httpBackend.expectPUT('http://localhost:6969/manUnited/')
 	      .respond(200, {data: {name: 'updated man united'}});
 
-	    manuctrl.updatemanUnited(testManUPlayer, updatedmanUnited);
+	    manuctrl.updatemanUnited(updatedmanUnited);
 	    $httpBackend.flush();
-
+	  
 	    expect(manuctrl.manUniteds[0].name).toBe('updated man united');
 	  });
 	});

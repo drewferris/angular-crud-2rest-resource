@@ -12,7 +12,7 @@ describe('controller tests', () => {
   beforeEach(() => {
     angular.mock.module('SoccerApp');
     angular.mock.inject(function($controller, _$httpBackend_) {
-      barcactrl = new $controller('BarcaController');
+      barcactrl = new $controller('TeamsController');
       $httpBackend = _$httpBackend_;
     });
   });
@@ -26,7 +26,7 @@ describe('controller tests', () => {
 
     $httpBackend.expectGET('http://localhost:6969/barca')
       .respond(200, {data:[]});
-    
+
     barcactrl.getBarcas();
     $httpBackend.flush();
     // console.log(barcactrl.barcas);
@@ -64,7 +64,7 @@ describe('controller tests', () => {
     $httpBackend.expectPUT('http://localhost:6969/barca/')
       .respond(200, {data: {name: 'updated barca'}});
 
-    barcactrl.updateBarca(testBarcaPlayer, updatedBarca);
+    barcactrl.updateBarca(updatedBarca);
     $httpBackend.flush();
 
     expect(barcactrl.barcas[0].name).toBe('updated barca');

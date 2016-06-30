@@ -12,7 +12,7 @@ describe('controller tests', () => {
   beforeEach(() => {
     angular.mock.module('SoccerApp');
     angular.mock.inject(function($controller, _$httpBackend_) {
-      manuctrl = new $controller('ManUnitedController');
+      manuctrl = new $controller('TeamsController');
       $httpBackend = _$httpBackend_;
     });
   });
@@ -65,9 +65,9 @@ describe('controller tests', () => {
     $httpBackend.expectPUT('http://localhost:6969/manUnited/')
       .respond(200, {data: {name: 'updated man united'}});
 
-    manuctrl.updatemanUnited(testManUPlayer, updatedmanUnited);
+    manuctrl.updatemanUnited(updatedmanUnited);
     $httpBackend.flush();
-
+  
     expect(manuctrl.manUniteds[0].name).toBe('updated man united');
   });
 });
