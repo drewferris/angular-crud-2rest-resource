@@ -35065,8 +35065,38 @@
 	    // $scope.$digest();
 	    // $httpBackend.flush();
 
-	    console.log(directive);
+
 	  });
+
+	  it('should list barcas', () => {
+	    $httpBackend.expectGET('./templates/teams/barca_list.html')
+	      .respond(200, barcaListTemplate);
+	    $httpBackend.expectGET('./templates/teams/player_form.html')
+	      .respond(200, playerFormTemplate);
+	    $scope.barcas = [{
+	      name: 'Test Messi',
+	      position: 'Test Forward',
+	      number: 10,
+	      goals: 22
+	    }, {
+	      name: 'Test Neymar',
+	      position: 'Test Forward',
+	      number: 11,
+	      goals: 23
+	    }];
+
+	    let link = $compile('<main ng-controller="TeamsController as teams">    <barca-list barcas="barcas"></barca-list></main>');
+	    let directive = link($scope);
+	    $scope.$digest();
+	    $httpBackend.flush();
+
+	    let li = directive.find('li');
+	    let liLength = li.length;
+
+	    expect(liLength).toBe(2);
+	  });
+
+	  
 
 	});
 
