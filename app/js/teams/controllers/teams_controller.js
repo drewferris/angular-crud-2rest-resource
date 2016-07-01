@@ -39,7 +39,6 @@ module.exports = function(app) {
     }.bind(this);
 
     this.updatemanUnited = function(manUnited) {
-      console.log('got here', manUnited);
       $http.put('http://localhost:6969/manUnited/', manUnited)
       .then(() => {
         this.manUniteds = this.manUniteds.map(n => {

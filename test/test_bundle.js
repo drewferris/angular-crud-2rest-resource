@@ -45,7 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(13);
+	__webpack_require__(14);
+	module.exports = __webpack_require__(18);
 
 
 /***/ },
@@ -57,7 +58,7 @@
 	const angular = __webpack_require__(2);
 
 	__webpack_require__(4);
-	__webpack_require__(12);
+	__webpack_require__(13);
 
 	describe('controller tests', () => {
 	  let barcactrl;
@@ -31688,7 +31689,6 @@
 	    }.bind(this);
 
 	    this.updatemanUnited = function(manUnited) {
-	      console.log('got here', manUnited);
 	      $http.put('http://localhost:6969/manUnited/', manUnited)
 	      .then(() => {
 	        this.manUniteds = this.manUniteds.map(n => {
@@ -31756,6 +31756,7 @@
 	  __webpack_require__(9)(app);
 	  __webpack_require__(10)(app);
 	  __webpack_require__(11)(app);
+	  __webpack_require__(12)(app);
 	};
 
 
@@ -31834,6 +31835,23 @@
 
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('dummy', function() {
+	    return {
+	      templateUrl: './templates/teams/dummy.html',
+	      scope: {
+	        data: '='
+	      },
+	      replace: true
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -34958,7 +34976,99 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const angular = __webpack_require__(2);
+	__webpack_require__(13);
+	__webpack_require__(4);
+
+	const dummyTemplate = __webpack_require__(15);
+	const barcaListTemplate = __webpack_require__(16);
+	const playerFormTemplate = __webpack_require__(17);
+
+	describe('directive tests', () => {
+	  let $httpBackend;
+	  let $scope;
+	  let $compile;
+	  let barcactrl;
+
+
+	  beforeEach(() => {
+	    angular.mock.module('SoccerApp');
+	    angular.mock.inject(function(_$httpBackend_, $rootScope,
+	    _$compile_, $controller) {
+	      barcactrl = new $controller('TeamsController');
+	      $scope = $rootScope.$new();
+	      $compile = _$compile_;
+	      $httpBackend = _$httpBackend_;
+	    });
+	  });
+
+	  it('should be a dummy', () => {
+	    $httpBackend.expectGET('./templates/teams/dummy.html')
+	      .respond(200, dummyTemplate);
+	    $scope.test = 'test data';
+	    let link = $compile('<dummy data="test"></dummy>');
+	    let directive = link($scope);
+	    $scope.$digest();
+	    $httpBackend.flush();
+
+	    let h3 = directive.find('h3');
+	    let text = h3.text();
+
+	    expect(text).toBe('test data');
+	  });
+
+	  it('barca list directive has barcas property that works', () => {
+	    // $httpBackend.expectGET('http://localhost:6969/barca')
+	    //   .respond(200, {data:[]});
+	    //
+	    // barcactrl.getBarcas();
+	    // // $httpBackend.flush();
+
+	    $httpBackend.expectGET('./templates/teams/barca_list.html')
+	      .respond(200, barcaListTemplate);
+	    $scope.test = 'test player';
+	    let link = $compile('<barca-list barca="test.name"></barca-list>');
+	    let directive = link($scope);
+	    $scope.$digest();
+	    $httpBackend.flush();
+
+	    // directive.isolateScope().type = 'edit';
+	    //
+	    //
+	    // $scope.$digest();
+	    // $httpBackend.flush();
+
+	    console.log(directive);
+	  });
+
+	});
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = "<div>\n  <h3>{{data}}</h3>\n</div>\n";
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = "<h1>Barcalona</h1>\n<li ng-repeat=\"barca in barcas\">\n  Player Name: {{barca.name}}<br>\n  Position: {{barca.position}}<br>\n  Number:{{barca.number}}<br>\n  Goals: {{barca.goals}}\n  <player-form player=\"barca\" type=\"edit\" team=\"barca\"></player-form>\n</li>\n";
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<form ng-submit=\"submit(player)\">\n  <h3>{{formMessage}}</h3>\n  <input placeholder=\"name\" type=\"text\" ng-model=\"player.name\">\n  <input placeholder=\"position\" type=\"text\" ng-model=\"player.position\">\n  <input placeholder=\"number\" type=\"text\" ng-model=\"player.number\">\n  <input placeholder=\"goals\" type=\"text\" ng-model=\"player.goals\">\n  <button type=\"submit\" ng-click=\"update(player)\">{{type}} player</button>\n  <button ng-show=\"type === 'edit'\" ng-click=\"delete(player)\">Delete Player</button>\n</form>\n";
+
+/***/ },
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34966,7 +35076,7 @@
 	const angular = __webpack_require__(2);
 
 	__webpack_require__(4);
-	__webpack_require__(12);
+	__webpack_require__(13);
 
 	describe('controller tests', () => {
 	  let manuctrl;

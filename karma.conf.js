@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Mon Jun 20 2016 11:42:29 GMT-0700 (PDT)
+// Generated on Wed Jun 22 2016 15:36:35 GMT-0700 (PDT)
 
 module.exports = function(config) {
   config.set({
@@ -14,7 +14,8 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
-    files: [ './test/test_bundle.js'
+    files: [
+      'test/test_bundle.js'
     ],
 
 
@@ -64,5 +65,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  });
-};
+  })
+}
