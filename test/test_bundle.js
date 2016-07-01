@@ -34993,14 +34993,12 @@
 	  let $httpBackend;
 	  let $scope;
 	  let $compile;
-	  let barcactrl;
 
 
 	  beforeEach(() => {
 	    angular.mock.module('SoccerApp');
 	    angular.mock.inject(function(_$httpBackend_, $rootScope,
-	    _$compile_, $controller) {
-	      barcactrl = new $controller('TeamsController');
+	    _$compile_) {
 	      $scope = $rootScope.$new();
 	      $compile = _$compile_;
 	      $httpBackend = _$httpBackend_;
@@ -35029,10 +35027,34 @@
 	    // barcactrl.getBarcas();
 	    // // $httpBackend.flush();
 
+	    $httpBackend.expectGET('./templates/teams/player_form.html')
+	      .respond(200, playerFormTemplate);
+	    $scope.manUnited = ['barca', 'manunited'];
+	    let link = $compile('  <main ng-controller="TeamsController as teams"><player-form player="{}" type="new" team="manUnited"></player-form></main>');
+	    let directive = link($scope);
+	    $scope.$digest();
+	    $httpBackend.flush();
+
+	    // directive.isolateScope().type = 'edit';
+	    //
+	    //
+	    // $scope.$digest();
+	    // $httpBackend.flush();
+
+	    // console.log(directive);
+	  });
+
+	  it('barca list directive has barcas property that works', () => {
+	    // $httpBackend.expectGET('http://localhost:6969/barca')
+	    //   .respond(200, {data:[]});
+	    //
+	    // barcactrl.getBarcas();
+	    // // $httpBackend.flush();
+
 	    $httpBackend.expectGET('./templates/teams/barca_list.html')
 	      .respond(200, barcaListTemplate);
-	    $scope.test = 'test player';
-	    let link = $compile('<barca-list barca="test.name"></barca-list>');
+	    $scope.test = 'test';
+	    let link = $compile('  <main ng-controller="TeamsController as teams"><barca-list barca="test"></barca-list></main>');
 	    let directive = link($scope);
 	    $scope.$digest();
 	    $httpBackend.flush();
