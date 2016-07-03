@@ -3,12 +3,15 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('TeamsController', function($http) {
+  app.controller('TeamsController',  function($http, GetService, AddService) {
+    const http = GetService('/manUnited');
+    const httpBarca = GetService('/barca');
+    const httpAddMan = AddService('/manUnited');
     this.manUniteds = [];
     this.barcas = [];
 
     this.getmanUniteds = function() {
-      $http.get('http://localhost:6969/manUnited')
+      http.getAll()
       .then((res) => {
         this.manUniteds = res.data;
       }, (err) => {
@@ -25,6 +28,16 @@ module.exports = function(app) {
         console.log(err);
       });
     }.bind(this);
+    //
+    // this.addmanUnited = function(manUnited) {
+    //   httpAddMan.addPlayer()
+    //   .then((res) => {
+    //     this.manUniteds.push(res.data);
+    //     this.manUnited = null;
+    //   }, (err) => {
+    //     console.log(err);
+    //   });
+    // }.bind(this);
 
     this.deletemanUnited = function(manUnited) {
       console.log(manUnited);
@@ -55,7 +68,7 @@ module.exports = function(app) {
     };
 
     this.getBarcas = function() {
-      $http.get('http://localhost:6969/barca')
+      httpBarca.getAll()
       .then((res) => {
         this.barcas = res.data;
       }, (err) => {
