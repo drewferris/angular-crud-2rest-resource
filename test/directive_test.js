@@ -39,54 +39,6 @@ describe('directive tests', () => {
     expect(text).toBe('test data');
   });
 
-  it('barca list directive has barcas property that works', () => {
-    // $httpBackend.expectGET('http://localhost:6969/barca')
-    //   .respond(200, {data:[]});
-    //
-    // barcactrl.getBarcas();
-    // // $httpBackend.flush();
-
-    $httpBackend.expectGET('./templates/teams/player_form.html')
-      .respond(200, playerFormTemplate);
-    $scope.manUnited = ['barca', 'manunited'];
-    let link = $compile('  <main ng-controller="TeamsController as teams"><player-form player="{}" type="new" team="manUnited"></player-form></main>');
-    let directive = link($scope);
-    $scope.$digest();
-    $httpBackend.flush();
-
-    // directive.isolateScope().type = 'edit';
-    //
-    //
-    // $scope.$digest();
-    // $httpBackend.flush();
-
-    // console.log(directive);
-  });
-
-  it('barca list directive has barcas property that works', () => {
-    // $httpBackend.expectGET('http://localhost:6969/barca')
-    //   .respond(200, {data:[]});
-    //
-    // barcactrl.getBarcas();
-    // // $httpBackend.flush();
-
-    $httpBackend.expectGET('./templates/teams/barca_list.html')
-      .respond(200, barcaListTemplate);
-    $scope.test = 'test';
-    let link = $compile('  <main ng-controller="TeamsController as teams"><barca-list barca="test"></barca-list></main>');
-    let directive = link($scope);
-    $scope.$digest();
-    $httpBackend.flush();
-
-    // directive.isolateScope().type = 'edit';
-    //
-    //
-    // $scope.$digest();
-    // $httpBackend.flush();
-
-
-  });
-
   it('should list barcas', () => {
     $httpBackend.expectGET('./templates/teams/barca_list.html')
       .respond(200, barcaListTemplate);
@@ -115,6 +67,22 @@ describe('directive tests', () => {
     expect(liLength).toBe(2);
   });
 
-  
+  it('should form', () => {
+    $httpBackend.expectGET('./templates/teams/barca_list.html')
+      .respond(200, barcaListTemplate);
+    $httpBackend.expectGET('./templates/teams/player_form.html')
+      .respond(200, playerFormTemplate);
+    $scope.barcas = [{
+      name: 'Test Messi',
+      position: 'Test Forward',
+      number: 10,
+      goals: 22
+    }, {
+      name: 'Test Neymar',
+      position: 'Test Forward',
+      number: 11,
+      goals: 23
+    }];
+  });
 
 });

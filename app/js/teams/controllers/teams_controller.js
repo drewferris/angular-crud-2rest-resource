@@ -3,10 +3,9 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('TeamsController',  function($http, GetService, AddService) {
+  app.controller('TeamsController',  function($http, GetService) {
     const http = GetService('/manUnited');
     const httpBarca = GetService('/barca');
-    const httpAddMan = AddService('/manUnited');
     this.manUniteds = [];
     this.barcas = [];
 
@@ -28,16 +27,6 @@ module.exports = function(app) {
         console.log(err);
       });
     }.bind(this);
-    //
-    // this.addmanUnited = function(manUnited) {
-    //   httpAddMan.addPlayer()
-    //   .then((res) => {
-    //     this.manUniteds.push(res.data);
-    //     this.manUnited = null;
-    //   }, (err) => {
-    //     console.log(err);
-    //   });
-    // }.bind(this);
 
     this.deletemanUnited = function(manUnited) {
       console.log(manUnited);

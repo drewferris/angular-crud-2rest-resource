@@ -1,6 +1,5 @@
 module.exports = function(app) {
   app.factory('GetService', ['$http', function($http) {
-    const service = {};
     let baseUrl = 'http://localhost:6969';
     function HTTPService(resource) {
       this.resource = resource;

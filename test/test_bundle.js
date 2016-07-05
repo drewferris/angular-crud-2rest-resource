@@ -45,8 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(14);
-	module.exports = __webpack_require__(18);
+	__webpack_require__(17);
+	module.exports = __webpack_require__(21);
 
 
 /***/ },
@@ -58,7 +58,7 @@
 	const angular = __webpack_require__(2);
 
 	__webpack_require__(4);
-	__webpack_require__(13);
+	__webpack_require__(16);
 
 	describe('controller tests', () => {
 	  let barcactrl;
@@ -31623,6 +31623,7 @@
 	const app = angular.module('SoccerApp', []);
 
 	__webpack_require__(5)(app);
+	__webpack_require__(13)(app);
 
 
 /***/ },
@@ -31653,12 +31654,14 @@
 	'use strict';
 
 	module.exports = function(app) {
-	  app.controller('TeamsController', function($http) {
+	  app.controller('TeamsController',  function($http, GetService) {
+	    const http = GetService('/manUnited');
+	    const httpBarca = GetService('/barca');
 	    this.manUniteds = [];
 	    this.barcas = [];
 
 	    this.getmanUniteds = function() {
-	      $http.get('http://localhost:6969/manUnited')
+	      http.getAll()
 	      .then((res) => {
 	        this.manUniteds = res.data;
 	      }, (err) => {
@@ -31705,7 +31708,7 @@
 	    };
 
 	    this.getBarcas = function() {
-	      $http.get('http://localhost:6969/barca')
+	      httpBarca.getAll()
 	      .then((res) => {
 	        this.barcas = res.data;
 	      }, (err) => {
@@ -31852,6 +31855,60 @@
 
 /***/ },
 /* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(14)(app);
+	  __webpack_require__(15)(app);
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('GetService', ['$http', function($http) {
+	    let baseUrl = 'http://localhost:6969';
+	    function HTTPService(resource) {
+	      this.resource = resource;
+	    }
+
+	    HTTPService.prototype.getAll = function() {
+	      return $http.get(baseUrl + this.resource);
+	    };
+
+	    return function(resource) {
+	      return new HTTPService(resource);
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('AddService', ['$http', function($http) {
+	    let baseUrl = 'http://localhost:6969';
+	    function HTTPService(resource) {
+	      this.resource = resource;
+	    }
+
+	    HTTPService.prototype.addPlayer = function() {
+	      return $http.post(baseUrl + this.resource, this.resource);
+	    };
+
+	    return function(resource) {
+	      return new HTTPService(resource);
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -34976,18 +35033,18 @@
 
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	const angular = __webpack_require__(2);
-	__webpack_require__(13);
+	__webpack_require__(16);
 	__webpack_require__(4);
 
-	const dummyTemplate = __webpack_require__(15);
-	const barcaListTemplate = __webpack_require__(16);
-	const playerFormTemplate = __webpack_require__(17);
+	const dummyTemplate = __webpack_require__(18);
+	const barcaListTemplate = __webpack_require__(19);
+	const playerFormTemplate = __webpack_require__(20);
 
 	describe('directive tests', () => {
 	  let $httpBackend;
@@ -35020,54 +35077,6 @@
 	    expect(text).toBe('test data');
 	  });
 
-	  it('barca list directive has barcas property that works', () => {
-	    // $httpBackend.expectGET('http://localhost:6969/barca')
-	    //   .respond(200, {data:[]});
-	    //
-	    // barcactrl.getBarcas();
-	    // // $httpBackend.flush();
-
-	    $httpBackend.expectGET('./templates/teams/player_form.html')
-	      .respond(200, playerFormTemplate);
-	    $scope.manUnited = ['barca', 'manunited'];
-	    let link = $compile('  <main ng-controller="TeamsController as teams"><player-form player="{}" type="new" team="manUnited"></player-form></main>');
-	    let directive = link($scope);
-	    $scope.$digest();
-	    $httpBackend.flush();
-
-	    // directive.isolateScope().type = 'edit';
-	    //
-	    //
-	    // $scope.$digest();
-	    // $httpBackend.flush();
-
-	    // console.log(directive);
-	  });
-
-	  it('barca list directive has barcas property that works', () => {
-	    // $httpBackend.expectGET('http://localhost:6969/barca')
-	    //   .respond(200, {data:[]});
-	    //
-	    // barcactrl.getBarcas();
-	    // // $httpBackend.flush();
-
-	    $httpBackend.expectGET('./templates/teams/barca_list.html')
-	      .respond(200, barcaListTemplate);
-	    $scope.test = 'test';
-	    let link = $compile('  <main ng-controller="TeamsController as teams"><barca-list barca="test"></barca-list></main>');
-	    let directive = link($scope);
-	    $scope.$digest();
-	    $httpBackend.flush();
-
-	    // directive.isolateScope().type = 'edit';
-	    //
-	    //
-	    // $scope.$digest();
-	    // $httpBackend.flush();
-
-
-	  });
-
 	  it('should list barcas', () => {
 	    $httpBackend.expectGET('./templates/teams/barca_list.html')
 	      .respond(200, barcaListTemplate);
@@ -35096,31 +35105,47 @@
 	    expect(liLength).toBe(2);
 	  });
 
-	  
+	  it('should form', () => {
+	    $httpBackend.expectGET('./templates/teams/barca_list.html')
+	      .respond(200, barcaListTemplate);
+	    $httpBackend.expectGET('./templates/teams/player_form.html')
+	      .respond(200, playerFormTemplate);
+	    $scope.barcas = [{
+	      name: 'Test Messi',
+	      position: 'Test Forward',
+	      number: 10,
+	      goals: 22
+	    }, {
+	      name: 'Test Neymar',
+	      position: 'Test Forward',
+	      number: 11,
+	      goals: 23
+	    }];
+	  });
 
 	});
 
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = "<div>\n  <h3>{{data}}</h3>\n</div>\n";
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = "<h1>Barcalona</h1>\n<li ng-repeat=\"barca in barcas\">\n  Player Name: {{barca.name}}<br>\n  Position: {{barca.position}}<br>\n  Number:{{barca.number}}<br>\n  Goals: {{barca.goals}}\n  <player-form player=\"barca\" type=\"edit\" team=\"barca\"></player-form>\n</li>\n";
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = "<form ng-submit=\"submit(player)\">\n  <h3>{{formMessage}}</h3>\n  <input placeholder=\"name\" type=\"text\" ng-model=\"player.name\">\n  <input placeholder=\"position\" type=\"text\" ng-model=\"player.position\">\n  <input placeholder=\"number\" type=\"text\" ng-model=\"player.number\">\n  <input placeholder=\"goals\" type=\"text\" ng-model=\"player.goals\">\n  <button type=\"submit\" ng-click=\"update(player)\">{{type}} player</button>\n  <button ng-show=\"type === 'edit'\" ng-click=\"delete(player)\">Delete Player</button>\n</form>\n";
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35128,7 +35153,7 @@
 	const angular = __webpack_require__(2);
 
 	__webpack_require__(4);
-	__webpack_require__(13);
+	__webpack_require__(16);
 
 	describe('controller tests', () => {
 	  let manuctrl;
