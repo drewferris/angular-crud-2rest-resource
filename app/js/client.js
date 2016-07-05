@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 const angular = require('angular');
-const soccerTeamApp = angular.module('SoccerApp', []);
+const app = angular.module('SoccerApp', []);
 
-require('./manUnited/manUnited')(soccerTeamApp);
-require('./barca/barca')(soccerTeamApp);
+require('./teams')(app);
+require('./services')(app);
