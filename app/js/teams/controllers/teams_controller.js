@@ -1,9 +1,9 @@
-
-
 'use strict';
 
 module.exports = function(app) {
-  app.controller('TeamsController',  function($http, GetService) {
+  app.controller('TeamsController',  function($http, AuthService, GetService, $location) {
+    const urlManUnited = 'http://localhost:6969/manUnited';
+    const urlBarca = 'http://localhost:6969/barca';
     const http = GetService('/manUnited');
     const httpBarca = GetService('/barca');
     this.manUniteds = [];
@@ -19,11 +19,19 @@ module.exports = function(app) {
     };
 
     this.addmanUnited = function(manUnited) {
-      $http.post('http://localhost:6969/manUnited', manUnited)
+      $http({
+        method: 'POST',
+        data: manUnited,
+        headers: {
+          token: AuthService.getToken()
+        },
+        urlManUnited
+      })
       .then((res) => {
         this.manUniteds.push(res.data);
         this.manUnited = null;
       }, (err) => {
+        // $location.url('/signin')
         console.log(err);
       });
     }.bind(this);
@@ -66,7 +74,14 @@ module.exports = function(app) {
     };
 
     this.addBarca = function(barca) {
-      $http.post('http://localhost:6969/barca', barca)
+      $http({
+        method: 'POST',
+        data: barca,
+        headers: {
+          token: AuthService.getToken()
+        },
+        urlBarca
+      })
       .then((res) => {
         this.barcas.push(res.data);
         this.barca = null;
