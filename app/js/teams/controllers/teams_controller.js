@@ -31,7 +31,7 @@ module.exports = function(app) {
         this.manUniteds.push(res.data);
         this.manUnited = null;
       }, (err) => {
-        // $location.url('/signin')
+        $location.url('/signin');
         console.log(err);
       });
     }.bind(this);
@@ -86,6 +86,7 @@ module.exports = function(app) {
         this.barcas.push(res.data);
         this.barca = null;
       }, (err) => {
+        $location.url('/signin');
         console.log(err);
       });
     }.bind(this);
