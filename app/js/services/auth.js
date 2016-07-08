@@ -1,12 +1,13 @@
 module.exports = function(app) {
-  app.factory('AuthService', function($http) {
-    let token;
+  app.factory('AuthService', function($http, $window) {
+    let token = $window.localStorage.token;
     const service = {};
 
     service.signUp = function(user) {
       return $http.post('http://localhost:6969/auth/signup', user)
         .then((res) => {
           token = res.data.token;
+          $window.localStorage.token = token;
           return res;
         });
     };
@@ -22,9 +23,15 @@ module.exports = function(app) {
           authorization: authString
         }
       }).then((res) => {
+        console.log('here');
         token = res.data.token;
+        $window.localStorage.token = token;
         return res;
       });
+    };
+
+    service.signOut = function() {
+      token = $window.localStorage.token = null;
     };
 
     service.getToken = function() {

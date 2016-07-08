@@ -22,5 +22,10 @@ app.config(function($routeProvider) {
     templateUrl: './templates/teams/sign_in.html',
     controller: 'SigninController',
     controllerAs: 'signinctrl'
+  })
+  .when('/signout', {
+    templateUrl: './templates/teams/sign_out.html',
+    controller: 'SigninController',
+    controllerAs: 'signinctrl'
   });
 });

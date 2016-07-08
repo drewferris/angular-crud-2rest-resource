@@ -10,8 +10,9 @@ module.exports = function(app) {
       AuthService.signUp(user)
         .then((res) => {
           console.log(res);
+          $location.path('/');
         })
-        .then((err) => {
+        .catch((err) => {
           console.log(err);
         });
     };
@@ -20,10 +21,21 @@ module.exports = function(app) {
       AuthService.signIn(user)
         .then((res) => {
           console.log(res);
+          $location.path('/');
         })
-        .then((err) => {
+        .then(null, (err) => {
           console.log(err);
           $location.path('/signup');
+        });
+    };
+
+    this.signOut = function() {
+      AuthService.signOut()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     };
   });
