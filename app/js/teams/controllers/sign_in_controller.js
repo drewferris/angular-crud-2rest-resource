@@ -20,6 +20,10 @@ module.exports = function(app) {
       AuthService.signIn(user)
         .then((res) => {
           console.log(res);
+        })
+        .then((err) => {
+          console.log(err);
+          $location.path('/signup');
         });
     };
   });

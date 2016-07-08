@@ -4,7 +4,7 @@ module.exports = function(app) {
     const service = {};
 
     service.signUp = function(user) {
-      return $http.post('http://localhost:6969/signup', user)
+      return $http.post('http://localhost:6969/auth/signup', user)
         .then((res) => {
           token = res.data.token;
           return res;
@@ -16,7 +16,7 @@ module.exports = function(app) {
       let authString = 'Basic ' + base64Auth;
 
       return $http({
-        url: 'http://localhost:6969/login',
+        url: 'http://localhost:6969/auth/login',
         methods: 'POST',
         headers: {
           authorization: authString

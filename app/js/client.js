@@ -1,7 +1,8 @@
 'use strict';
 
 const angular = require('angular');
-const app = angular.module('SoccerApp', []);
+const ngRoute = require('angular-route');
+const app = angular.module('SoccerApp', [ngRoute]);
 
 require('./teams')(app);
 require('./services')(app);
@@ -13,12 +14,12 @@ app.config(function($routeProvider) {
     controllerAs: 'teams'
   })
   .when('/signup', {
-    templateUrl: '../templates/teams/signup.html',
+    templateUrl: './templates/teams/sign_up.html',
     controller: 'SigninController',
     controllerAs: 'signinctrl'
   })
   .when('/signin', {
-    templateUrl: '../templates/teams/signin.html',
+    templateUrl: './templates/teams/sign_in.html',
     controller: 'SigninController',
     controllerAs: 'signinctrl'
   });
