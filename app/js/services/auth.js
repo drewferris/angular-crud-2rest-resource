@@ -23,7 +23,6 @@ module.exports = function(app) {
           authorization: authString
         }
       }).then((res) => {
-        console.log('here');
         token = res.data.token;
         $window.localStorage.token = token;
         return res;
